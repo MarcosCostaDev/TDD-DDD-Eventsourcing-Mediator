@@ -23,6 +23,11 @@ namespace IntegrationTest.Infra.Repository
             await _context.Products.AddAsync(product);
         }
 
+        public async Task<Product> GetAsync(Guid id)
+        {
+            return await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
+        }
+
         public async Task<IList<Product>> ListAllAsync()
         {
             return await _context.Products.ToListAsync();

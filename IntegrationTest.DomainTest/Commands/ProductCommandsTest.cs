@@ -1,4 +1,5 @@
 ﻿using IntegrationTest.Domain.Commands.Inputs;
+using IntegrationTest.DomainTest.Factories;
 using IntegrationTest.DomainTest.Fixtures;
 using IntegrationTest.Infra.UnitOfWork;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -14,19 +15,19 @@ using static IntegrationTest.Domain.Commands.Inputs.ProductCommands;
 
 namespace IntegrationTest.DomainTest.Commands
 {
-    public class ProductCommandsTest : BaseTest, IClassFixture<WebApplicationFactory<StartupTest>>
+    [Collection("Integration tests collection")]
+    public class ProductCommandsTest : AbstractIntegrationTest
     {
-        private WebApplicationFactory<StartupTest> _factory;
-
-        public ProductCommandsTest(ITestOutputHelper output, WebApplicationFactory<StartupTest> factory) : base(output)
+        
+        public ProductCommandsTest(ITestOutputHelper output, TestServerFixture testServerFixture) 
+            : base(output, testServerFixture)
         {
-            _factory = factory;
         }
 
         [Fact]
         public async Task CreateProductAsync()
         {
-            using var scope = _factory.Server.Host.Services.CreateScope();
+            using var scope = Server.Host.Services.CreateScope();
 
             var sut = scope.ServiceProvider.GetRequiredService<ProductCommands>();
             var uow = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();

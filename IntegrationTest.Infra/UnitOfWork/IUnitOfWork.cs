@@ -12,7 +12,7 @@ namespace IntegrationTest.Infra.UnitOfWork
 
         Task CommitAsync();
 
-        void RoolBack();
+        void RollBack();
 
         Task RoolbackAsync();
     }

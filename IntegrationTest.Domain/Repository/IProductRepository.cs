@@ -11,5 +11,6 @@ namespace IntegrationTest.Domain.Repository
     {
         Task AddAsync(Product product);
         Task<IList<Product>> ListAllAsync();
+        Task<Product> GetAsync(Guid id);
     }
 }

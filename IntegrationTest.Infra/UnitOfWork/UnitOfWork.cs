@@ -25,7 +25,7 @@ namespace IntegrationTest.Infra.UnitOfWork
            await _context.SaveChangesAsync();
         }
 
-        public void RoolBack()
+        public void RollBack()
         {
             
         }

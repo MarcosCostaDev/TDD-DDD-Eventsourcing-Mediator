@@ -23,7 +23,17 @@ namespace IntegrationTest.Domain.Commands.Inputs
             var product = new Product(command.Name, command.Brand);
 
             await _productRepository.AddAsync(product);
-            
+
+            return product;
+
+        }
+
+        public async Task<Product> UpdateProductAsync(UpdateProductCommand command)
+        {
+            var product = new Product(command.Name, command.Brand);
+
+            await _productRepository.AddAsync(product);
+
             return product;
 
         }
@@ -33,5 +43,13 @@ namespace IntegrationTest.Domain.Commands.Inputs
             public string Name { get; set; }
             public string Brand { get; set; }
         }
+
+        public class UpdateProductCommand
+        {
+            public Guid Id { get; set; }
+            public string Name { get; set; }
+            public string Brand { get; set; }
+        }
     }
 }
+
