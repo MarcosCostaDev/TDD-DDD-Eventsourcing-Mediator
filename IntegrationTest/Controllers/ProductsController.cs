@@ -33,16 +33,16 @@ namespace IntegrationTest.Controllers
         }
 
         [HttpPost("v1")]
-        public async Task<IActionResult> CreateAsync([FromBody] CreateProductModel createProductModel)
+        public async Task<IActionResult> CreateAsync([FromBody] CreateProductRequest createProductModel)
         {
             var product = await _productCommands.CreateProductAsync(_mapper.Map<CreateProductCommand>(createProductModel));
             return CommonResponse(product, _productCommands);
         }
 
         [HttpPut("v1")]
-        public async Task<IActionResult> UpdateAsync([FromBody] UpdateProductModel createProductModel)
+        public async Task<IActionResult> UpdateAsync([FromBody] UpdateProductRequest createProductModel)
         {
-            var product = await _productCommands.CreateProductAsync(_mapper.Map<CreateProductCommand>(createProductModel));
+            var product = await _productCommands.UpdateProductAsync(_mapper.Map<UpdateProductCommand>(createProductModel));
             return CommonResponse(product, _productCommands);
         }
 
@@ -54,13 +54,13 @@ namespace IntegrationTest.Controllers
         }
     }
 
-    public class CreateProductModel
+    public class CreateProductRequest
     {
         public string Name { get; set; }
         public string Brand { get; set; }
     }
 
-    public class UpdateProductModel
+    public class UpdateProductRequest
     {
         public Guid Id { get; set; }
         public string Name { get; set; }

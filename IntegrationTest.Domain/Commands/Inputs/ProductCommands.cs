@@ -30,9 +30,10 @@ namespace IntegrationTest.Domain.Commands.Inputs
 
         public async Task<Product> UpdateProductAsync(UpdateProductCommand command)
         {
-            var product = new Product(command.Name, command.Brand, command.Price);
+            var product = await _productRepository.GetAsync(command.Id);
+            product.Update(command.Name, command.Brand, command.Price);
 
-            await _productRepository.AddAsync(product);
+            await _productRepository.UpdateAsync(product);
 
             return product;
 

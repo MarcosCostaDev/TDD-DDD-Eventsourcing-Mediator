@@ -1,8 +1,10 @@
+using AutoMapper;
 using IntegrationTest.Domain.Commands.Inputs;
 using IntegrationTest.Domain.Repository;
 using IntegrationTest.Infra.Contexts;
 using IntegrationTest.Infra.Repository;
 using IntegrationTest.Infra.UnitOfWork;
+using IntegrationTest.Mapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -48,6 +50,23 @@ namespace IntegrationTest
 
             services.AddTransient<ProductCommands, ProductCommands>();
             SetUpDatabase(services);
+            SetUpAutoMapper(services);
+
+        }
+
+        protected virtual void SetUpAutoMapper(IServiceCollection services)
+        {
+                var mapperConfig = new MapperConfiguration(cfg =>
+                {
+                    // map properties with a public or private getter
+                    // https://docs.automapper.org/en/stable/Configuration.html#global-property-field-filtering
+                    cfg.ShouldMapProperty = pi => pi.GetMethod != null && (pi.GetMethod.IsPublic || pi.GetMethod.IsPrivate);
+
+                    cfg.AddProfile(new DomainMapping());
+                });
+
+                IMapper mapper = mapperConfig.CreateMapper();
+                services.AddSingleton(mapper);
         }
 
         protected virtual void SetUpDatabase(IServiceCollection services)

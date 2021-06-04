@@ -32,5 +32,11 @@ namespace IntegrationTest.Infra.Repository
         {
             return await _context.Products.ToListAsync();
         }
+
+        public Task UpdateAsync(Product product)
+        {
+            _context.Products.Attach(product).State = EntityState.Modified;
+            return Task.CompletedTask;
+        }
     }
 }

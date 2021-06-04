@@ -1,13 +1,16 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using IntegrationTest.Controllers;
+using static IntegrationTest.Domain.Commands.Inputs.ProductCommands;
 
 namespace IntegrationTest.Mapper
 {
     public class DomainMapping : Profile
     {
-
+        public DomainMapping()
+        {
+            CreateMap<CreateProductRequest, CreateProductCommand>();
+            CreateMap<UpdateProductRequest, UpdateProductCommand>();            
+        }
+       
     }
 }
