@@ -59,8 +59,15 @@ namespace IntegrationTest
 
         public virtual void EnsureDbCreated(MyDbContext dbContext)
         {
+            try
+            {
+                dbContext.Database.Migrate();
+            }
+            catch (Exception)
+            {
+            }
             // run Migrations
-            dbContext.Database.Migrate();
+           
         }
 
 

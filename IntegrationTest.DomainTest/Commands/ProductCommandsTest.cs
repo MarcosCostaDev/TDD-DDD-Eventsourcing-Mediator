@@ -39,7 +39,7 @@ namespace IntegrationTest.DomainTest.Commands
             };
             var result = await sut.CreateProductAsync(command);
             await uow.CommitAsync();
-            WriteLine(result);
+            AddNotifications(result);
             Assert.True(result.IsValid);
             Assert.Equal(command.Name, result.Name);
             Assert.Equal(command.Brand, result.Brand);

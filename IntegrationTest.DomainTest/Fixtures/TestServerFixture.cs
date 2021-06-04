@@ -1,14 +1,10 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net.Http;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IntegrationTest.DomainTest.Fixtures
 {
@@ -20,14 +16,28 @@ namespace IntegrationTest.DomainTest.Fixtures
 
         public TestServerFixture()
         {
-            var root = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
-            var builder = new WebHostBuilder()
-                .UseEnvironment("Development")
-                .UseStartup<TestStartup>();
+            var configuration = new ConfigurationBuilder()
+            .SetBasePath(AppContext.BaseDirectory)
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+            .AddJsonFile("appsettings.Development.json", optional: true, reloadOnChange: true)
+            .AddJsonFile("appsettings.Testing.json", optional: true, reloadOnChange: true)
+            .Build();
 
-            Server = new TestServer(builder);
+            var builder = new WebHostBuilder()
+               .UseContentRoot(Directory.GetCurrentDirectory())
+               .UseEnvironment("Testing")
+               .ConfigureServices(services => services.AddSingleton<IConfiguration>(configuration))
+               .UseStartup<TestStartup>();
+
+            Server = CreateTestServer(builder);
 
             Client = Server.CreateClient();
+        }
+
+
+        protected virtual TestServer CreateTestServer(IWebHostBuilder builder)
+        {
+            return new TestServer(builder);
         }
 
         public void Dispose()

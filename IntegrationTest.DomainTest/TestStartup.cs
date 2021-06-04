@@ -1,4 +1,5 @@
 ﻿using IntegrationTest.Infra.Contexts;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,14 +22,15 @@ namespace IntegrationTest.DomainTest
 
         protected override void SetUpDatabase(IServiceCollection services)
         {
-            var path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "appsettings.Testing.json");
-            var config = new ConfigurationBuilder()
-                                .AddJsonFile(path, false)
-                                .Build();
+            var connectionStringBuilder = new SqliteConnectionStringBuilder { DataSource = ":memory:" };
+            var connectionString = connectionStringBuilder.ToString();
+            var connection = new SqliteConnection(connectionString);
 
-            services.AddDbContext<MyDbContext>(optionsBuilder =>
-                      optionsBuilder.UseSqlite(config["ConnectionStrings:testdbconnection"])
-                      , ServiceLifetime.Scoped);
+            services
+                .AddEntityFrameworkSqlite()
+                .AddDbContext<MyDbContext>(
+                    options => options.UseSqlite(connection)
+                );
         }
 
 
@@ -37,7 +39,7 @@ namespace IntegrationTest.DomainTest
             dbContext.Database.OpenConnection(); 
             dbContext.Database.EnsureCreated();
 
-            //base.EnsureDbCreated(dbContext);
+            base.EnsureDbCreated(dbContext);
         }
     }
 }

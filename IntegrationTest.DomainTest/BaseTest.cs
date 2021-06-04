@@ -21,7 +21,7 @@ namespace IntegrationTest.DomainTest
             Output.WriteLine(text);
         }
 
-        public void WriteLine(Notifiable<Notification> notifiable)
+        public void AddNotifications(Notifiable<Notification> notifiable)
         {
             foreach (var notification in notifiable.Notifications)
             {
@@ -35,6 +35,6 @@ namespace IntegrationTest.DomainTest
     {
         void WriteLine(string text);
 
-        void WriteLine(Notifiable<Notification> notifiable);
+        void AddNotifications(Notifiable<Notification> notifiable);
     }
 }
