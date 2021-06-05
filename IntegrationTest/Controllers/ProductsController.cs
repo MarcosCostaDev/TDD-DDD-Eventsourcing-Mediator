@@ -2,6 +2,7 @@
 using IntegrationTest.Domain.Commands.Inputs;
 using IntegrationTest.Domain.Repository;
 using IntegrationTest.Infra.UnitOfWork;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -16,17 +17,20 @@ namespace IntegrationTest.Controllers
     [ApiController]
     public class ProductsController : CommonController
     {
+        private IMediator _mediator;
         private IMapper _mapper;
         private ProductCommands _productCommands;
         private IProductRepository _productRepository;
 
         public ProductsController(
-            IUnitOfWork unitOfWork
+            IMediator mediator
+            , IUnitOfWork unitOfWork
             , IMapper mapper
             , IProductRepository productRepository
             , ProductCommands productCommands)
             : base(unitOfWork)
         {
+            _mediator = mediator;
             _mapper = mapper;
             _productCommands = productCommands;
             _productRepository = productRepository;
@@ -35,14 +39,14 @@ namespace IntegrationTest.Controllers
         [HttpPost("v1")]
         public async Task<IActionResult> CreateAsync([FromBody] CreateProductRequest createProductModel)
         {
-            var product = await _productCommands.CreateProductAsync(_mapper.Map<CreateProductCommand>(createProductModel));
+            var product = await _mediator.Send(_mapper.Map<CreateProductCommand>(createProductModel));
             return CommonResponse(product, _productCommands);
         }
 
         [HttpPut("v1")]
         public async Task<IActionResult> UpdateAsync([FromBody] UpdateProductRequest createProductModel)
         {
-            var product = await _productCommands.UpdateProductAsync(_mapper.Map<UpdateProductCommand>(createProductModel));
+            var product = await _mediator.Send(_mapper.Map<UpdateProductCommand>(createProductModel));
             return CommonResponse(product, _productCommands);
         }
 

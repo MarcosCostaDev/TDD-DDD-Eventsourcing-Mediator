@@ -5,8 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="Flunt" Version="2.0.3" />
+    <PackageReference Include="MediatR" Version="9.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IntegrationTest.Core\IntegrationTest.Core.csproj" />
   </ItemGroup>
 
 </Project>

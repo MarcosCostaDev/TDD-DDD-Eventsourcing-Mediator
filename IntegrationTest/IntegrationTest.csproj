@@ -6,10 +6,12 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\IntegrationTest.Core\IntegrationTest.Core.csproj" />
     <ProjectReference Include="..\IntegrationTest.Domain\IntegrationTest.Domain.csproj" />
     <ProjectReference Include="..\IntegrationTest.Infra\IntegrationTest.Infra.csproj" />
   </ItemGroup>

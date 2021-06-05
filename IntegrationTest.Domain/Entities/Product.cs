@@ -25,11 +25,6 @@ namespace IntegrationTest.Domain.Entities
             Price = price;
         }
 
-        public Guid Id { get; set; }
-        public string Name { get; set; }
-        public string Brand { get; set; }
-        public double Price { get; set; }
-
         public void Update(string name, string brand, double price)
         {
             var contract = new Contract<Notification>();
@@ -43,6 +38,10 @@ namespace IntegrationTest.Domain.Entities
             Price = price;
         }
 
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public string Brand { get; set; }
+        public double Price { get; set; }
         public IReadOnlyCollection<InvoiceProduct> InvoiceProducts { get; set; }
 
     }

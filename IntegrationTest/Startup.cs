@@ -1,10 +1,12 @@
 using AutoMapper;
 using IntegrationTest.Domain.Commands.Inputs;
+using IntegrationTest.Domain.Mapper;
 using IntegrationTest.Domain.Repository;
 using IntegrationTest.Infra.Contexts;
 using IntegrationTest.Infra.Repository;
 using IntegrationTest.Infra.UnitOfWork;
 using IntegrationTest.Mapper;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -51,6 +53,7 @@ namespace IntegrationTest
             services.AddTransient<ProductCommands, ProductCommands>();
             SetUpDatabase(services);
             SetUpAutoMapper(services);
+            services.AddMediatR(typeof(InvoiceCommands));
 
         }
 
@@ -63,6 +66,7 @@ namespace IntegrationTest
                     cfg.ShouldMapProperty = pi => pi.GetMethod != null && (pi.GetMethod.IsPublic || pi.GetMethod.IsPrivate);
 
                     cfg.AddProfile(new DomainMapping());
+                    cfg.AddProfile(new CommandProfile());
                 });
 
                 IMapper mapper = mapperConfig.CreateMapper();
