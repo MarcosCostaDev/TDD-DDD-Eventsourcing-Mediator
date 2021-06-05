@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using IntegrationTest.Domain.Commands.Inputs;
-using IntegrationTest.Domain.Repository;
-using IntegrationTest.Infra.UnitOfWork;
+using IntegrationTest.Domain.Repositories;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,42 +18,37 @@ namespace IntegrationTest.Controllers
     {
         private IMediator _mediator;
         private IMapper _mapper;
-        private ProductCommands _productCommands;
         private IProductRepository _productRepository;
 
         public ProductsController(
             IMediator mediator
-            , IUnitOfWork unitOfWork
             , IMapper mapper
-            , IProductRepository productRepository
-            , ProductCommands productCommands)
-            : base(unitOfWork)
+            , IProductRepository productRepository)
         {
             _mediator = mediator;
             _mapper = mapper;
-            _productCommands = productCommands;
             _productRepository = productRepository;
         }
 
         [HttpPost("v1")]
         public async Task<IActionResult> CreateAsync([FromBody] CreateProductRequest createProductModel)
         {
-            var product = await _mediator.Send(_mapper.Map<CreateProductCommand>(createProductModel));
-            return CommonResponse(product, _productCommands);
+            var commandResult = await _mediator.Send(_mapper.Map<CreateProductCommand>(createProductModel));
+            return CommonResponse(commandResult);
         }
 
         [HttpPut("v1")]
         public async Task<IActionResult> UpdateAsync([FromBody] UpdateProductRequest createProductModel)
         {
-            var product = await _mediator.Send(_mapper.Map<UpdateProductCommand>(createProductModel));
-            return CommonResponse(product, _productCommands);
+            var commandResult = await _mediator.Send(_mapper.Map<UpdateProductCommand>(createProductModel));
+            return CommonResponse(commandResult);
         }
 
         [HttpGet("v1/{id}")]
         public async Task<IActionResult> GetAsync([FromRoute(Name = "id")] Guid id)
         {
-            var product = await _productRepository.GetAsync(id);
-            return CommonResponse(product);
+            var commandResult = await _productRepository.GetAsync(id);
+            return CommonResponse(commandResult);
         }
     }
 

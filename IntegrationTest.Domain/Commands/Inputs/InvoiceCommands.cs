@@ -2,7 +2,7 @@
 using Flunt.Notifications;
 using IntegrationTest.Core.Command;
 using IntegrationTest.Domain.Entities;
-using IntegrationTest.Domain.Repository;
+using IntegrationTest.Domain.Repositories;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -15,8 +15,8 @@ using static IntegrationTest.Domain.Commands.Results.InvoiceCommandResults;
 namespace IntegrationTest.Domain.Commands.Inputs
 {
     public class InvoiceCommands :
-        Notifiable<Notification> 
-        , IRequestHandler<CreateInvoiceCommand, ICommandResult> 
+        CommandHandler
+        , IRequestHandler<CreateInvoiceCommand, CommandResult> 
     {
         private IMapper _mapper;
         private IInvoiceRepository _invoiceRepository;
@@ -35,15 +35,15 @@ namespace IntegrationTest.Domain.Commands.Inputs
             _invoiceProductsRepository = invoiceProductsRepository;
         }
 
-        public async Task<ICommandResult> Handle(CreateInvoiceCommand request, CancellationToken cancellationToken)
+        public async Task<CommandResult> Handle(CreateInvoiceCommand request, CancellationToken cancellationToken)
         {
               var invoice = new Invoice(request.CustomerId);
-              return _mapper.Map<InvoiceCommandResult>(invoice);
+              return new CommandResult(_mapper.Map<InvoiceCommandResult>(invoice), this);
         }
        
     }
 
-    public class CreateInvoiceCommand : IRequest<ICommandResult>
+    public class CreateInvoiceCommand : IRequest<CommandResult>
     {
         public Guid CustomerId { get; set; }
         public double Discount { get; set; }

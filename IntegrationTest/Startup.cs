@@ -1,10 +1,9 @@
 using AutoMapper;
 using IntegrationTest.Domain.Commands.Inputs;
 using IntegrationTest.Domain.Mapper;
-using IntegrationTest.Domain.Repository;
+using IntegrationTest.Domain.Repositories;
 using IntegrationTest.Infra.Contexts;
-using IntegrationTest.Infra.Repository;
-using IntegrationTest.Infra.UnitOfWork;
+using IntegrationTest.Infra.Repositories;
 using IntegrationTest.Mapper;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -48,7 +47,6 @@ namespace IntegrationTest
                     .AddTransient<IProductRepository, ProductRepository>()
                     .AddTransient<IInvoiceProductsRepository, InvoiceProductsRepository>();
 
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddTransient<ProductCommands, ProductCommands>();
             SetUpDatabase(services);

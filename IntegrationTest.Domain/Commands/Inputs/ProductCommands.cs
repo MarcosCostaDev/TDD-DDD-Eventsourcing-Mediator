@@ -2,7 +2,7 @@
 using Flunt.Notifications;
 using IntegrationTest.Core.Command;
 using IntegrationTest.Domain.Entities;
-using IntegrationTest.Domain.Repository;
+using IntegrationTest.Domain.Repositories;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -16,9 +16,9 @@ using static IntegrationTest.Domain.Commands.Results.ProductCommandResults;
 namespace IntegrationTest.Domain.Commands.Inputs
 {
     public class ProductCommands 
-        : Notifiable<Notification>
-        , IRequestHandler<CreateProductCommand, ICommandResult>
-        , IRequestHandler<UpdateProductCommand, ICommandResult>
+        : CommandHandler
+        , IRequestHandler<CreateProductCommand, CommandResult>
+        , IRequestHandler<UpdateProductCommand, CommandResult>
     {
         private IMapper _mapper;
         private IProductRepository _productRepository;
@@ -31,17 +31,18 @@ namespace IntegrationTest.Domain.Commands.Inputs
             _productRepository = productRepository;
         }
 
-        public async Task<ICommandResult> Handle(CreateProductCommand request, CancellationToken cancellationToken)
+        public async Task<CommandResult> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
             var product = new Product(request.Name, request.Brand, request.Price);
 
             await _productRepository.AddAsync(product);
-
-            return _mapper.Map<CreateProductResult>(product);
+            AddNotifications(product);
+            await CommitAsync(_productRepository);
+            return new CommandResult(_mapper.Map<CreateProductResult>(product), this);
 
         }
 
-        public async Task<ICommandResult> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
+        public async Task<CommandResult> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
         {
             var product = await _productRepository.GetAsync(request.Id);
             product.Update(request.Name, request.Brand, request.Price);
@@ -49,19 +50,20 @@ namespace IntegrationTest.Domain.Commands.Inputs
             await _productRepository.UpdateAsync(product);
 
 
-            return _mapper.Map<UpdateProductResult>(product);
+            await CommitAsync(_productRepository);
+            return new CommandResult(_mapper.Map<UpdateProductResult>(product), this);
 
         }
 
 
-        public class CreateProductCommand : IRequest<ICommandResult>
+        public class CreateProductCommand : IRequest<CommandResult>
         {
             public string Name { get; set; }
             public string Brand { get; set; }
             public double Price { get; set; }
         }
 
-        public class UpdateProductCommand : IRequest<ICommandResult>
+        public class UpdateProductCommand : IRequest<CommandResult>
         {
             public Guid Id { get; set; }
             public string Name { get; set; }

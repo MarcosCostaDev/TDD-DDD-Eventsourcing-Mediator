@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IntegrationTest.Domain.Repository
+namespace IntegrationTest.Domain.Repositories
 {
-    public interface IInvoiceRepository
+    public interface IInvoiceProductsRepository
     {
     }
 }

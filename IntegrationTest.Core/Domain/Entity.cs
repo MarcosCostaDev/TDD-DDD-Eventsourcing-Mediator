@@ -5,10 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IntegrationTest.Core.Command
+namespace IntegrationTest.Core.Domain
 {
-    public interface ICommandResult
+    public abstract class Entity : Notifiable<Notification>
     {
-
     }
 }

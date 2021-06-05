@@ -1,6 +1,6 @@
 ﻿using Flunt.Notifications;
 using Flunt.Validations;
-using IntegrationTest.Infra.UnitOfWork;
+using IntegrationTest.Core.Command;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -13,35 +13,31 @@ namespace IntegrationTest.Controllers
     [NotMapped]
     public abstract class CommonController : ControllerBase
     {
-        private IUnitOfWork _unitOfWork;
 
-        protected CommonController(IUnitOfWork unitOfWork)
+
+        protected IActionResult CommonResponse(CommandResult commandResult)
         {
-            _unitOfWork = unitOfWork;
-        }
-
-
-        protected IActionResult CommonResponse(object value, Notification notification)
-        {
-            var contract = new Contract<Notification>();
-            contract.AddNotification(notification);
-            return CommonResponse(value, contract);
+            var response = new ResponseResult(commandResult);
+            if (commandResult.IsValid)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
         }
 
         protected IActionResult CommonResponse(object value, Notifiable<Notification> notifiable = null)
         {
-            var response = new ResponseResult(value);
-            if (notifiable != null)
-            {
-                response.AddNotifications(notifiable);
-            }
+            var response = new ResponseResult(value, notifiable);
 
-            if (value is AccessTokenResult)
+            if (response.Success)
             {
-                if (response.IsValid)
+                if (value is AccessTokenResult)
                 {
                     var res = value as AccessTokenResult;
-                    _unitOfWork.Commit();
+
                     return Ok(new
                     {
                         res.AccessToken,
@@ -50,17 +46,12 @@ namespace IntegrationTest.Controllers
                         res.TokenType
                     });
                 }
-            }
-            else
-            {
-                if (response.IsValid)
+                else
                 {
-                    _unitOfWork.Commit();
                     return Ok(response);
                 }
             }
 
-            _unitOfWork.RollBack();
             response.ClearObject();
             return BadRequest(response);
 
@@ -69,15 +60,26 @@ namespace IntegrationTest.Controllers
 
     }
 
-    public class ResponseResult : Notifiable<Notification>
+    public class ResponseResult
     {
+        public ResponseResult(CommandResult commandResult)
+        {
+            Success = commandResult.Success;
+            Notifications = commandResult.Notifications;
+            if (commandResult.IsValid)
+            {
+                Object = commandResult.Object;
+            }
 
+        }
         public ResponseResult(object data)
         {
 
             if (data is Notifiable<Notification>)
             {
-                AddNotifications(data as Notifiable<Notification>);
+                var notifiable = data as Notifiable<Notification>;
+                Success = notifiable.IsValid;
+                Notifications = notifiable.Notifications;
             }
 
             Object = data;
@@ -86,56 +88,28 @@ namespace IntegrationTest.Controllers
         public ResponseResult(object data, Notifiable<Notification> notifiable)
         {
             Object = data;
-            AddNotifications(notifiable);
+            Success = (notifiable?.IsValid).GetValueOrDefault(true);
+            Notifications = notifiable?.Notifications;
         }
 
-        public ResponseResult(object data, IEnumerable<Notifiable<Notification>> notifications)
+        public ResponseResult(object data, IEnumerable<Notifiable<Notification>> notifiables)
         {
             Object = data;
-            notifications.ToList().ForEach(n => AddNotifications(n));
+            Success = notifiables.SelectMany(p => p.Notifications).Any();
+            Notifications = notifiables.SelectMany(p => p.Notifications);
         }
 
         public void ClearObject()
         {
             Object = null;
         }
-        public bool Success => IsValid;
+        public bool Success { get; private set; }
         public object Object { get; private set; }
 
+        public IEnumerable<Notification> Notifications { get; private set; }
+
     }
 
-    public class ResponseResult<TEntityResult> : Notifiable<Notification>
-        where TEntityResult : Notifiable<Notification>
-    {
-        public ResponseResult(TEntityResult data)
-        {
-
-            AddNotifications(data);
-
-            Object = data;
-        }
-
-        public ResponseResult(TEntityResult data, Notifiable<Notification> notifiable)
-        {
-            Object = data;
-            AddNotifications(data);
-            AddNotifications(notifiable);
-        }
-
-        public ResponseResult(TEntityResult data, IEnumerable<Notification> notifications)
-        {
-            Object = data;
-            notifications.ToList().ForEach(n => AddNotification(n));
-        }
-
-        public void ClearObject()
-        {
-            Object = null;
-        }
-
-        public bool Success => IsValid;
-        public TEntityResult Object { get; private set; }
-    }
 
 
     public class AccessTokenResult : Notifiable<Notification>

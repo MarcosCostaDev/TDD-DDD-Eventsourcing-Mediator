@@ -10,7 +10,7 @@ namespace IntegrationTest.Domain.Commands.Results
 {
     public class ProductCommandResults
     {
-        public class CreateProductResult : ICommandResult
+        public class CreateProductResult
         {
             public Guid Id { get; set; }
             public string Name { get; set; }
@@ -20,7 +20,7 @@ namespace IntegrationTest.Domain.Commands.Results
 
         }
 
-        public class UpdateProductResult : ICommandResult
+        public class UpdateProductResult 
         {
             public Guid Id { get; set; }
             public string Name { get; set; }

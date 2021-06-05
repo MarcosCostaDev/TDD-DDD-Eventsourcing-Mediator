@@ -10,7 +10,7 @@ namespace IntegrationTest.Domain.Commands.Results
 {
     public class InvoiceCommandResults
     {
-        public class InvoiceCommandResult : ICommandResult
+        public class InvoiceCommandResult 
         {
             public Guid Id { get; set; }
             public DateTime CreatedDate { get; set; }
