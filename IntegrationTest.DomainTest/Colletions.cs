@@ -7,7 +7,7 @@ using Xunit;
 
 namespace IntegrationTest.DomainTest
 {
-    [CollectionDefinition("Integration tests collection")]
+    [CollectionDefinition("API")]
     public class IntegrationTestsCollection
     {
     }

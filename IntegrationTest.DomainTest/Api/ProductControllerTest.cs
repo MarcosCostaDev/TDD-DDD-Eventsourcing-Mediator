@@ -18,19 +18,15 @@ using static IntegrationTest.Domain.Commands.Inputs.ProductCommands;
 
 namespace IntegrationTest.DomainTest.Api
 {
-    [Collection("Integration tests collection")]
+    [Collection("API")]
     [TestCaseOrderer("IntegrationTest.DomainTest.PriorityOrderer", "IntegrationTest.DomainTest")]
-    public class ProductControllerTest : AbstractIntegrationTest, ITestCaseOrderer
+    public class ProductControllerTest : AbstractIntegrationTest
     {
         public ProductControllerTest(ITestOutputHelper output, TestServerFixture testServerFixture)
          : base(output, testServerFixture)
         {
         }
 
-        public IEnumerable<TTestCase> OrderTestCases<TTestCase>(IEnumerable<TTestCase> testCases) where TTestCase : ITestCase
-        {
-            return testCases;
-        }
 
         public static Product CreatedProduct { get; set; }
 
@@ -75,6 +71,7 @@ namespace IntegrationTest.DomainTest.Api
             var dynObj = (JObject)JsonConvert.DeserializeObject(responseText);
             CreatedProduct = dynObj.GetValue("object").ToObject<Product>(serializer);
             WriteLine(responseText);
+            Assert.True(bool.Parse(dynObj.GetValue("success").ToString()));
         }
 
 

@@ -1,4 +1,5 @@
 ﻿using IntegrationTest.Core.Repositories;
+using IntegrationTest.Domain.Entities;
 using IntegrationTest.Domain.Repositories;
 using IntegrationTest.Infra.Contexts;
 using System;
@@ -13,6 +14,11 @@ namespace IntegrationTest.Infra.Repositories
     {
         public InvoiceProductsRepository(MyDbContext context) : base(context)
         {
+        }
+
+        public async Task AddAsync(InvoiceProduct productInvoice)
+        {
+            await Context.InvoiceProducts.AddAsync(productInvoice);
         }
     }
 }

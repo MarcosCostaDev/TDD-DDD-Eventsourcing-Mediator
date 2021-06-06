@@ -50,6 +50,13 @@ namespace IntegrationTest.Controllers
             var commandResult = await _productRepository.GetAsync(id);
             return CommonResponse(commandResult);
         }
+
+        [HttpGet("v1")]
+        public async Task<IActionResult> ListAsync([FromRoute(Name = "id")] Guid id)
+        {
+            var commandResult = await _productRepository.ListAllAsync();
+            return CommonResponse(commandResult);
+        }
     }
 
     public class CreateProductRequest

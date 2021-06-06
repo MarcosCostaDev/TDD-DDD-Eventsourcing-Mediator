@@ -34,6 +34,11 @@ namespace IntegrationTest.Infra.Repositories
             return await Context.Products.ToListAsync();
         }
 
+        public async Task<IList<Product>> ListAsync(IEnumerable<Guid> ids)
+        {
+            return await Context.Products.Where(p => ids.Contains(p.Id)).ToListAsync();
+        }
+
         public Task UpdateAsync(Product product)
         {
             Context.Products.Attach(product).State = EntityState.Modified;

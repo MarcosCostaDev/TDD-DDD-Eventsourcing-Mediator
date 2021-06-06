@@ -13,6 +13,7 @@ namespace IntegrationTest.Domain.Repositories
         Task AddAsync(Product product);
         Task<IList<Product>> ListAllAsync();
         Task<Product> GetAsync(Guid id);
+        Task<IList<Product>> ListAsync(IEnumerable<Guid> ids);
         Task UpdateAsync(Product product);
     }
 }
