@@ -29,6 +29,7 @@ namespace IntegrationTest.Domain.Commands.Inputs
         {
             _mapper = mapper;
             _productRepository = productRepository;
+
         }
 
         public async Task<CommandResult> Handle(CreateProductCommand request, CancellationToken cancellationToken)
@@ -56,14 +57,14 @@ namespace IntegrationTest.Domain.Commands.Inputs
         }
 
 
-        public class CreateProductCommand : IRequest<CommandResult>
+        public class CreateProductCommand : CommandRequest
         {
             public string Name { get; set; }
             public string Brand { get; set; }
             public double Price { get; set; }
         }
 
-        public class UpdateProductCommand : IRequest<CommandResult>
+        public class UpdateProductCommand : CommandRequest
         {
             public Guid Id { get; set; }
             public string Name { get; set; }

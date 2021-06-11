@@ -25,7 +25,7 @@ namespace IntegrationTest.Infra.Factories
 
             var connectionString = configuration.GetConnectionString("dbconnection");
 
-            connectionString = connectionString.Replace("mydb.db", Path.Combine(baseAppPath, "mydb.db"));
+            connectionString = connectionString.Replace("./", Path.Combine(baseAppPath, "App_Data"));
             dbContextBuilder.UseSqlite(connectionString, b => b.MigrationsAssembly("IntegrationTest.Infra"));
 
             return new MyDbContext(dbContextBuilder.Options);

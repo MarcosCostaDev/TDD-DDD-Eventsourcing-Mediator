@@ -58,11 +58,11 @@ namespace IntegrationTest.Domain.Commands.Inputs
 
     }
 
-    public class CreateInvoiceCommand : IRequest<CommandResult>
+    public class CreateInvoiceCommand : CommandRequest
     {
         public Guid CustomerId { get; set; }
         public double Discount { get; set; }
-        public IEnumerable<ItemsCommand> Items { get; set; }
+        public IList<ItemsCommand> Items { get; set; }
         public class ItemsCommand
         {
             public Guid ProductId { get; set; }

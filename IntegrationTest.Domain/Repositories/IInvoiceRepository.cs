@@ -12,5 +12,6 @@ namespace IntegrationTest.Domain.Repositories
     public interface IInvoiceRepository : IRepository
     {
         Task<Invoice> GetAsync(Guid id);
+        Task<IList<Invoice>> ListAsync();
     }
 }

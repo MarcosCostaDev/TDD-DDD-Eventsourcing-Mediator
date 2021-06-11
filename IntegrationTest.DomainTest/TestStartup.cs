@@ -1,4 +1,5 @@
 ﻿using IntegrationTest.Infra.Contexts;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -40,6 +41,16 @@ namespace IntegrationTest.DomainTest
             dbContext.Database.EnsureCreated();
 
             base.EnsureDbCreated(dbContext);
+        }
+
+        protected override void ConfigureHangFire(IServiceCollection services)
+        {
+
+        }
+
+        protected override void UseHangfire(IApplicationBuilder app)
+        {
+
         }
     }
 }

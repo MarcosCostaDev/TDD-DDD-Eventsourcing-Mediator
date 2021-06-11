@@ -11,9 +11,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\IntegrationTest.BackgroundManager\IntegrationTest.BackgroundManager.csproj" />
+    <ProjectReference Include="..\IntegrationTest.Bus\IntegrationTest.Bus.csproj" />
     <ProjectReference Include="..\IntegrationTest.Core\IntegrationTest.Core.csproj" />
     <ProjectReference Include="..\IntegrationTest.Domain\IntegrationTest.Domain.csproj" />
     <ProjectReference Include="..\IntegrationTest.Infra\IntegrationTest.Infra.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="App_Data\" />
   </ItemGroup>
 
 </Project>

@@ -25,4 +25,8 @@
     <ProjectReference Include="..\IntegrationTest\IntegrationTest.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
+
 </Project>

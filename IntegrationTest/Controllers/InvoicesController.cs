@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using IntegrationTest.Core.Bus;
 using IntegrationTest.Domain.Commands.Inputs;
 using IntegrationTest.Domain.Repositories;
 using MediatR;
@@ -15,12 +16,12 @@ namespace IntegrationTest.Controllers
     [ApiController]
     public class InvoicesController : CommonController
     {
-        private IMediator _mediator;
+        private IMediatorHandler _mediator;
         private IMapper _mapper;
         private IInvoiceRepository _invoiceRepository;
 
         public InvoicesController(
-            IMediator mediator
+            IMediatorHandler mediator
             , IMapper mapper
             , IInvoiceRepository invoiceRepository)
         {
@@ -35,10 +36,16 @@ namespace IntegrationTest.Controllers
             return CommonResponse(await _invoiceRepository.GetAsync(id));
         }
 
+        [HttpGet("v1")]
+        public async Task<IActionResult> GetAsync()
+        {
+            return CommonResponse(await _invoiceRepository.ListAsync());
+        }
+
         [HttpPost("v1")]
         public async Task<IActionResult> CreateInvoiceAsync(CreateInvoiceRequest request)
         {
-            var commandResult = await _mediator.Send(_mapper.Map<CreateInvoiceCommand>(request));
+            var commandResult = await _mediator.SendCommandAsync(_mapper.Map<CreateInvoiceCommand>(request));
             return CommonResponse(commandResult);
         }
 

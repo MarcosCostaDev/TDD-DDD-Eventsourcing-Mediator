@@ -57,7 +57,7 @@ namespace IntegrationTest.DomainTest.Api
                 {
                     ProductId = p.Id,
                     Quantity = 2
-                })
+                }).ToList()
             };
             var json = JsonConvert.SerializeObject(command);
             var content = new StringContent(json, Encoding.UTF8, "application/json");

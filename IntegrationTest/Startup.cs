@@ -1,4 +1,9 @@
 using AutoMapper;
+using Hangfire;
+using Hangfire.SQLite;
+using IntegrationTest.BackgroundManager.Actions;
+using IntegrationTest.Bus;
+using IntegrationTest.Core.Bus;
 using IntegrationTest.Domain.Commands.Inputs;
 using IntegrationTest.Domain.Mapper;
 using IntegrationTest.Domain.Repositories;
@@ -42,8 +47,10 @@ namespace IntegrationTest
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "IntegrationTest", Version = "v1" });
             });
 
-
-            services.AddTransient<IInvoiceRepository, InvoiceRepository>()
+            services.AddScoped<IMediatorHandler, InMemoryBus>()
+                    .AddTransient<IFakingProductAction, FakingProductAction>()
+                    .AddTransient<IFakingInvoiceAction, FakingInvoiceAction>()
+                    .AddTransient<IInvoiceRepository, InvoiceRepository>()
                     .AddTransient<IProductRepository, ProductRepository>()
                     .AddTransient<IInvoiceProductsRepository, InvoiceProductsRepository>();
 
@@ -52,23 +59,26 @@ namespace IntegrationTest
             SetUpDatabase(services);
             SetUpAutoMapper(services);
             services.AddMediatR(typeof(InvoiceCommands));
+            ConfigureHangFire(services);
 
         }
 
+        
+
         protected virtual void SetUpAutoMapper(IServiceCollection services)
         {
-                var mapperConfig = new MapperConfiguration(cfg =>
-                {
+            var mapperConfig = new MapperConfiguration(cfg =>
+            {
                     // map properties with a public or private getter
                     // https://docs.automapper.org/en/stable/Configuration.html#global-property-field-filtering
                     cfg.ShouldMapProperty = pi => pi.GetMethod != null && (pi.GetMethod.IsPublic || pi.GetMethod.IsPrivate);
 
-                    cfg.AddProfile(new DomainMapping());
-                    cfg.AddProfile(new CommandProfile());
-                });
+                cfg.AddProfile(new DomainMapping());
+                cfg.AddProfile(new CommandProfile());
+            });
 
-                IMapper mapper = mapperConfig.CreateMapper();
-                services.AddSingleton(mapper);
+            IMapper mapper = mapperConfig.CreateMapper();
+            services.AddSingleton(mapper);
         }
 
         protected virtual void SetUpDatabase(IServiceCollection services)
@@ -88,7 +98,7 @@ namespace IntegrationTest
             {
             }
             // run Migrations
-           
+
         }
 
 
@@ -119,6 +129,39 @@ namespace IntegrationTest
                 var dbContext = serviceScope.ServiceProvider.GetService<MyDbContext>();
                 EnsureDbCreated(dbContext);
             }
+
+            UseHangfire(app);
+        }
+
+       
+
+        protected virtual void ConfigureHangFire(IServiceCollection services)
+        {
+            services.AddHangfire(options =>
+            {
+                options.UseSQLiteStorage(Configuration.GetConnectionString("hangfiredb"));
+            });
+
+            services.AddHangfireServer(options =>
+            {
+                options.Queues = new string[] {
+                    "generate_fake_products",
+                    "generate_fake_invoices"
+                };
+
+                options.WorkerCount = 1;
+            });
+        }
+
+        protected virtual void UseHangfire(IApplicationBuilder app)
+        {
+            app.UseHangfireDashboard();
+
+            RecurringJob.AddOrUpdate<IFakingProductAction>($"FakingProducts",
+                  x => x.GenerateProducts(), "*/30 * * * * *", queue: "generate_fake_products");
+
+            RecurringJob.AddOrUpdate<IFakingInvoiceAction>($"FakingInvoices",
+                  x => x.GenerateInvoices(), "*/1 * * * *", queue: "generate_fake_invoices");
         }
     }
 }

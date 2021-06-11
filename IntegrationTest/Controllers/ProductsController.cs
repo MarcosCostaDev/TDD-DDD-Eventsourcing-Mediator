@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using IntegrationTest.Core.Bus;
 using IntegrationTest.Domain.Commands.Inputs;
 using IntegrationTest.Domain.Repositories;
 using MediatR;
@@ -16,12 +17,12 @@ namespace IntegrationTest.Controllers
     [ApiController]
     public class ProductsController : CommonController
     {
-        private IMediator _mediator;
+        private IMediatorHandler _mediator;
         private IMapper _mapper;
         private IProductRepository _productRepository;
 
         public ProductsController(
-            IMediator mediator
+            IMediatorHandler mediator
             , IMapper mapper
             , IProductRepository productRepository)
         {
@@ -33,14 +34,14 @@ namespace IntegrationTest.Controllers
         [HttpPost("v1")]
         public async Task<IActionResult> CreateAsync([FromBody] CreateProductRequest createProductModel)
         {
-            var commandResult = await _mediator.Send(_mapper.Map<CreateProductCommand>(createProductModel));
+            var commandResult = await _mediator.SendCommandAsync(_mapper.Map<CreateProductCommand>(createProductModel));
             return CommonResponse(commandResult);
         }
 
         [HttpPut("v1")]
         public async Task<IActionResult> UpdateAsync([FromBody] UpdateProductRequest createProductModel)
         {
-            var commandResult = await _mediator.Send(_mapper.Map<UpdateProductCommand>(createProductModel));
+            var commandResult = await _mediator.SendCommandAsync(_mapper.Map<UpdateProductCommand>(createProductModel));
             return CommonResponse(commandResult);
         }
 
@@ -52,7 +53,7 @@ namespace IntegrationTest.Controllers
         }
 
         [HttpGet("v1")]
-        public async Task<IActionResult> ListAsync([FromRoute(Name = "id")] Guid id)
+        public async Task<IActionResult> ListAsync()
         {
             var commandResult = await _productRepository.ListAllAsync();
             return CommonResponse(commandResult);
