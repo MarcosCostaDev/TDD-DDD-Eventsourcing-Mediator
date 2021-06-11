@@ -1,7 +1,7 @@
 
 # IntegrationTest Project
 
-Welcome to my project that I use for playing with technologies that I would like to explorer more. 
+Welcome to my project that I use for playing with technologies that I would like to explorer them more. 
 Feel free to download the project and run in your enverionment.
 
 ## Requirements for running in your enverionment
@@ -21,8 +21,9 @@ Feel free to download the project and run in your enverionment.
 - Hangfire
 - MediatR
 - AutoMapper
+- SQLite
 
-**Unit Tests / Integration Tests **
+**Unit Tests / Integration Tests**
 
 - XUnit
 
@@ -44,6 +45,15 @@ Feel free to download the project and run in your enverionment.
 
 - Hangfire: https://localhost:44393/hangfire
 - Swagger UI: https://localhost:44393/swagger/index.html
+
+
+## Expected Behaviors 
+
+Two background queue are created. They are named `generate_fake_products` and `generate_fake_invoices`
+- **generate_fake_products**: Products are generate automatically in every 30 seconds
+- **generate_fake_invoices**: Invoices are generate automatically in every 1 seconds
+- An event is trigger for every product created.
+- An event is trigger for every invoice created.
 
 
 
