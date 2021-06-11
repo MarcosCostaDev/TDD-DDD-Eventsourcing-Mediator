@@ -17,6 +17,11 @@ namespace IntegrationTest.Infra.Repositories
         {
         }
 
+        public async Task AddAsync(Invoice invoice)
+        {
+            await Context.Invoices.AddAsync(invoice);
+        }
+
         public async Task<Invoice> GetAsync(Guid id)
         {
             return await Context.Invoices.Include(p => p.InvoiceProducts).ThenInclude(p => p.Product).FirstOrDefaultAsync();

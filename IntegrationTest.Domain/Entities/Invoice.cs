@@ -23,7 +23,10 @@ namespace IntegrationTest.Domain.Entities
         public void SetTotal(IList<Product> products, double discount)
         {
             var contract = new Contract<Notification>();
-            contract.IsLowerOrEqualsThan(discount, 0.1, "Discount", "Discount max allowed is 10 percent.");
+            if(discount > 0.1)
+            {
+                contract.AddNotification("Discount", "Discount max allowed is 10 percent.");
+            }
             AddNotifications(contract);
             Discount = discount;
             Total = products.Sum(p => p.Price);

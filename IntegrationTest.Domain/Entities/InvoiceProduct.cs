@@ -25,13 +25,13 @@ namespace IntegrationTest.Domain.Entities
             Quantity = quantity;
         }
 
-        public Guid Id { get; set; }
-        public Guid ProductId { get; set; }
-        public Guid InvoiceId { get; set; }
-        public double Quantity { get; set; }
+        public Guid Id { get; private set; }
+        public Guid ProductId { get; private set; }
+        public Guid InvoiceId { get; private set; }
+        public double Quantity { get; private set; }
 
-        public Invoice Invoice { get; set; }
-        public Product Product { get; set; }
+        public Invoice Invoice { get; private set; }
+        public Product Product { get; private set; }
 
     }
 }

@@ -1,4 +1,5 @@
-﻿using IntegrationTest.Domain.Entities;
+﻿using IntegrationTest.Core.Repositories;
+using IntegrationTest.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace IntegrationTest.Domain.Repositories
 {
-    public interface IInvoiceProductsRepository
+    public interface IInvoiceProductsRepository : IRepository
     {
         Task AddAsync(InvoiceProduct productInvoice);
     }

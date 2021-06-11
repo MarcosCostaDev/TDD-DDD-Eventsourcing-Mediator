@@ -3,6 +3,7 @@ using IntegrationTest.Core.Bus;
 using IntegrationTest.Core.Extensions;
 using IntegrationTest.Domain.Commands.Inputs;
 using IntegrationTest.Domain.Repositories;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,11 +19,13 @@ namespace IntegrationTest.BackgroundManager.Actions
     }
     public class FakingInvoiceAction : IFakingInvoiceAction
     {
+        private readonly ILogger<FakingInvoiceAction> _logger;
         private readonly IMediatorHandler _mediator;
         private readonly IProductRepository _productRepository;
 
-        public FakingInvoiceAction(IMediatorHandler mediator, IProductRepository productRepository)
+        public FakingInvoiceAction(ILogger<FakingInvoiceAction> logger, IMediatorHandler mediator, IProductRepository productRepository)
         {
+            _logger = logger;
             _mediator = mediator;
             _productRepository = productRepository;
         }
@@ -35,7 +38,7 @@ namespace IntegrationTest.BackgroundManager.Actions
             var command = new CreateInvoiceCommand
             {
                 CustomerId = Guid.NewGuid(),
-                Discount = random.NextDoubleRange(0.0, 0.1)
+                Discount = random.NextDoubleRange(0.0, 0.09)
             };
             var quantityProducts = random.Next(1, 10);
             command.Items = new List<CreateInvoiceCommand.ItemsCommand>();
@@ -49,7 +52,15 @@ namespace IntegrationTest.BackgroundManager.Actions
                 });
             }
 
-            await _mediator.SendCommandAsync(command);
+            var commandResult = await _mediator.SendCommandAsync(command);
+
+            if(!commandResult.IsValid)
+            {
+                var messages = string.Join(Environment.NewLine, commandResult.Notifications.Select(p => p.Message));
+                var message = $"Invoice was not created. Reasons: {messages}";
+                _logger.LogWarning(message);
+                throw new InvalidOperationException(message);
+            } 
             
 
 

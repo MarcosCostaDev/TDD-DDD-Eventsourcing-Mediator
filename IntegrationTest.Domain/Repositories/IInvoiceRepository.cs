@@ -13,5 +13,6 @@ namespace IntegrationTest.Domain.Repositories
     {
         Task<Invoice> GetAsync(Guid id);
         Task<IList<Invoice>> ListAsync();
+        Task AddAsync(Invoice invoice);
     }
 }

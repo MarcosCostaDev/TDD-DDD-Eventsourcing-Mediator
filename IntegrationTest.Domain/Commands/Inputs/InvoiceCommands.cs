@@ -40,7 +40,7 @@ namespace IntegrationTest.Domain.Commands.Inputs
             var invoice = new Invoice(request.CustomerId);
             var products = await _productRepository.ListAsync(request.Items.Select(p => p.ProductId));
             invoice.SetTotal(products, request.Discount);
-          
+            await _invoiceRepository.AddAsync(invoice);
             foreach (var item in request.Items)
             {
                 var productInvoice = new InvoiceProduct(item.ProductId, invoice.Id, item.Quantity);
@@ -51,7 +51,7 @@ namespace IntegrationTest.Domain.Commands.Inputs
 
             AddNotifications(invoice);
 
-
+            await CommitAsync(_invoiceProductsRepository);
 
             return new CommandResult(_mapper.Map<InvoiceCommandResult>(invoice), this);
         }

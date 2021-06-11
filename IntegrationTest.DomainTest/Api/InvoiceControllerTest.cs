@@ -80,7 +80,17 @@ namespace IntegrationTest.DomainTest.Api
 
             WriteLine(responseText);
 
+
+            var assert = await Client.GetAsync($"/api/invoices/v1/{dynObj["object"]["id"]}");
+            sut.EnsureSuccessStatusCode();
+            var responseAssert = await sut.Content.ReadAsStringAsync();
+
+            var dynAssertObj = (JObject)JsonConvert.DeserializeObject(responseText);
+
+
+
             Assert.True(bool.Parse(dynObj.GetValue("success").ToString()));
+            Assert.Equal(dynObj["object"]["id"], dynAssertObj["object"]["id"]);
         }
 
         private IEnumerable<CreateProductCommand> CreateProdutCommands()
