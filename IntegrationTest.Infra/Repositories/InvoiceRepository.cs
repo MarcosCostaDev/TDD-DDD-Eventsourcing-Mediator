@@ -29,7 +29,7 @@ namespace IntegrationTest.Infra.Repositories
 
         public async Task<IList<Invoice>> ListAsync()
         {
-            return await Context.Invoices.Include(p => p.InvoiceProducts).ThenInclude(p => p.Product).ToListAsync();
+            return await Context.Invoices.ToListAsync();
         }
     }
 }
