@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Flunt.Notifications;
+using IntegrationTest.Core.Bus;
 using IntegrationTest.Core.Command;
 using IntegrationTest.Domain.Entities;
 using IntegrationTest.Domain.Repositories;
@@ -12,6 +13,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using static IntegrationTest.Domain.Commands.Inputs.ProductCommands;
 using static IntegrationTest.Domain.Commands.Results.ProductCommandResults;
+using static IntegrationTest.Domain.Events.ProductEvents;
 
 namespace IntegrationTest.Domain.Commands.Inputs
 {
@@ -21,13 +23,16 @@ namespace IntegrationTest.Domain.Commands.Inputs
         , IRequestHandler<UpdateProductCommand, CommandResult>
     {
         private IMapper _mapper;
+        private IMediatorHandler _mediatorHandler;
         private IProductRepository _productRepository;
 
         public ProductCommands(
             IMapper mapper,
+             IMediatorHandler mediatorHandler,
             IProductRepository productRepository)
         {
             _mapper = mapper;
+            _mediatorHandler = mediatorHandler;
             _productRepository = productRepository;
 
         }
@@ -39,6 +44,15 @@ namespace IntegrationTest.Domain.Commands.Inputs
             await _productRepository.AddAsync(product);
             AddNotifications(product);
             await CommitAsync(_productRepository);
+
+            if(IsValid)
+            {
+                await _mediatorHandler.PublishEventAsync(new CreatedProductEvent
+                {
+                    ProductId = product.Id
+                });
+            }
+
             return new CommandResult(_mapper.Map<CreateProductResult>(product), this);
 
         }

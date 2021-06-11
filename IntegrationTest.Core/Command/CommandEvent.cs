@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using IntegrationTest.Core.Messaging;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace IntegrationTest.Core.Command
 {
-    public class CommandEvent : INotification
+    public class CommandEvent : Event, INotification
     {
     }
 }

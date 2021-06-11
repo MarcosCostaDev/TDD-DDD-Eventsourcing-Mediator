@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Flunt.Notifications;
+using IntegrationTest.Core.Bus;
 using IntegrationTest.Core.Command;
 using IntegrationTest.Domain.Entities;
 using IntegrationTest.Domain.Repositories;
@@ -11,6 +12,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using static IntegrationTest.Domain.Commands.Results.InvoiceCommandResults;
+using static IntegrationTest.Domain.Events.InvoiceEvents;
 
 namespace IntegrationTest.Domain.Commands.Inputs
 {
@@ -19,20 +21,24 @@ namespace IntegrationTest.Domain.Commands.Inputs
         , IRequestHandler<CreateInvoiceCommand, CommandResult>
     {
         private IMapper _mapper;
+        private IMediatorHandler _mediatorHandler;
         private IInvoiceRepository _invoiceRepository;
         private IProductRepository _productRepository;
         private IInvoiceProductsRepository _invoiceProductsRepository;
 
         public InvoiceCommands(
             IMapper mapper,
+             IMediatorHandler mediatorHandler,
             IInvoiceRepository invoiceRepository,
             IProductRepository productRepository,
             IInvoiceProductsRepository invoiceProductsRepository)
         {
             _mapper = mapper;
+            _mediatorHandler = mediatorHandler;
             _invoiceRepository = invoiceRepository;
             _productRepository = productRepository;
             _invoiceProductsRepository = invoiceProductsRepository;
+            
         }
 
         public async Task<CommandResult> Handle(CreateInvoiceCommand request, CancellationToken cancellationToken)
@@ -52,6 +58,15 @@ namespace IntegrationTest.Domain.Commands.Inputs
             AddNotifications(invoice);
 
             await CommitAsync(_invoiceProductsRepository);
+
+            if(IsValid)
+            {
+                await _mediatorHandler.PublishEventAsync(new InvoiceCreatedEvent
+                {
+                    InvoiceId = invoice.Id,
+                    CustomerId = request.CustomerId
+                });
+            }
 
             return new CommandResult(_mapper.Map<InvoiceCommandResult>(invoice), this);
         }
