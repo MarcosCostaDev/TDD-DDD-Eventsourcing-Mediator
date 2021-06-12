@@ -21,6 +21,7 @@ Feel free to download the project and run in your enverionment.
 - Hangfire
 - MediatR
 - AutoMapper
+- Entity Framework Core
 - SQLite
 
 **Unit Tests / Integration Tests**
@@ -37,7 +38,8 @@ Feel free to download the project and run in your enverionment.
 ## Strategies
 
 - Command Query Responsability Segregation (CQRS)  
-
+- Entity Framework Code First
+- Linq / Lambda expressions
 
 ## After Run
 
