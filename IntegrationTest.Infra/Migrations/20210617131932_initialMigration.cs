@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace IntegrationTest.Infra.Migrations
 {
-    public partial class IdentityCreate : Migration
+    public partial class initialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,7 +12,11 @@ namespace IntegrationTest.Infra.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    CustomerId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Discount = table.Column<double>(type: "REAL", nullable: false),
+                    Total = table.Column<double>(type: "REAL", nullable: false),
+                    TotalWithDiscount = table.Column<double>(type: "REAL", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -25,7 +29,8 @@ namespace IntegrationTest.Infra.Migrations
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
                     Name = table.Column<string>(type: "TEXT", nullable: true),
-                    Brand = table.Column<string>(type: "TEXT", nullable: true)
+                    Brand = table.Column<string>(type: "TEXT", nullable: true),
+                    Price = table.Column<double>(type: "REAL", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -36,14 +41,15 @@ namespace IntegrationTest.Infra.Migrations
                 name: "InvoiceProducts",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
                     ProductId = table.Column<Guid>(type: "TEXT", nullable: false),
                     InvoiceId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Quantity = table.Column<double>(type: "REAL", nullable: false)
+                    Quantity = table.Column<double>(type: "REAL", nullable: false),
+                    TempId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_InvoiceProducts", x => x.Id);
+                    table.PrimaryKey("PK_InvoiceProducts", x => new { x.InvoiceId, x.ProductId });
+                    table.UniqueConstraint("AK_InvoiceProducts_TempId", x => x.TempId);
                     table.ForeignKey(
                         name: "FK_InvoiceProducts_Invoices_InvoiceId",
                         column: x => x.InvoiceId,
@@ -60,33 +66,28 @@ namespace IntegrationTest.Infra.Migrations
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "Id", "Brand", "Name" },
-                values: new object[] { new Guid("41c0f761-70c9-42a4-a0bc-058c1ecf4d57"), "Nestle", "Nescau" });
+                columns: new[] { "Id", "Brand", "Name", "Price" },
+                values: new object[] { new Guid("41c0f761-70c9-42a4-a0bc-058c1ecf4d57"), "Nestle", "Nescau", 4.5 });
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "Id", "Brand", "Name" },
-                values: new object[] { new Guid("24911ce9-9174-4613-8ea0-91e6ab4a9f6f"), "Toddy", "Toddynho" });
+                columns: new[] { "Id", "Brand", "Name", "Price" },
+                values: new object[] { new Guid("24911ce9-9174-4613-8ea0-91e6ab4a9f6f"), "Toddy", "Toddynho", 2.5 });
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "Id", "Brand", "Name" },
-                values: new object[] { new Guid("0399951c-a322-4298-90cd-712958392496"), "Coke", "Fanta" });
+                columns: new[] { "Id", "Brand", "Name", "Price" },
+                values: new object[] { new Guid("0399951c-a322-4298-90cd-712958392496"), "Coke", "Fanta", 7.2999999999999998 });
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "Id", "Brand", "Name" },
-                values: new object[] { new Guid("33903b03-f351-4d7e-bec5-121444f38444"), "Coke", "Coke" });
+                columns: new[] { "Id", "Brand", "Name", "Price" },
+                values: new object[] { new Guid("33903b03-f351-4d7e-bec5-121444f38444"), "Coke", "Coke", 9.25 });
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "Id", "Brand", "Name" },
-                values: new object[] { new Guid("5e70170e-884d-4e73-ae4a-8855e19e349c"), "Health-option", "Double Flex bread" });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_InvoiceProducts_InvoiceId",
-                table: "InvoiceProducts",
-                column: "InvoiceId");
+                columns: new[] { "Id", "Brand", "Name", "Price" },
+                values: new object[] { new Guid("5e70170e-884d-4e73-ae4a-8855e19e349c"), "Health-option", "Double Flex bread", 5.5 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_InvoiceProducts_ProductId",

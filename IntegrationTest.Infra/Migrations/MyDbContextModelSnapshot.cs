@@ -44,10 +44,6 @@ namespace IntegrationTest.Infra.Migrations
 
             modelBuilder.Entity("IntegrationTest.Domain.Entities.InvoiceProduct", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
                     b.Property<Guid>("InvoiceId")
                         .HasColumnType("TEXT");
 
@@ -57,9 +53,9 @@ namespace IntegrationTest.Infra.Migrations
                     b.Property<double>("Quantity")
                         .HasColumnType("REAL");
 
-                    b.HasKey("Id");
 
-                    b.HasIndex("InvoiceId");
+                    b.HasKey("InvoiceId", "ProductId");
+
 
                     b.HasIndex("ProductId");
 

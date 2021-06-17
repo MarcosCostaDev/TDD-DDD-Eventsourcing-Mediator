@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IntegrationTest.Infra.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20210604130043_addinvoiceprice")]
-    partial class addinvoiceprice
+    [Migration("20210617131932_initialMigration")]
+    partial class initialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -36,6 +36,9 @@ namespace IntegrationTest.Infra.Migrations
                     b.Property<double>("Total")
                         .HasColumnType("REAL");
 
+                    b.Property<double>("TotalWithDiscount")
+                        .HasColumnType("REAL");
+
                     b.HasKey("Id");
 
                     b.ToTable("Invoices");
@@ -43,10 +46,6 @@ namespace IntegrationTest.Infra.Migrations
 
             modelBuilder.Entity("IntegrationTest.Domain.Entities.InvoiceProduct", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
                     b.Property<Guid>("InvoiceId")
                         .HasColumnType("TEXT");
 
@@ -56,9 +55,12 @@ namespace IntegrationTest.Infra.Migrations
                     b.Property<double>("Quantity")
                         .HasColumnType("REAL");
 
-                    b.HasKey("Id");
+                    b.Property<int>("TempId")
+                        .HasColumnType("INTEGER");
 
-                    b.HasIndex("InvoiceId");
+                    b.HasKey("InvoiceId", "ProductId");
+
+                    b.HasAlternateKey("TempId");
 
                     b.HasIndex("ProductId");
 

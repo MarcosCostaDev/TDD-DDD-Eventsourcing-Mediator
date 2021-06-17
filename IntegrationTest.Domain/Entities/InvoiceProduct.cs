@@ -22,9 +22,9 @@ namespace IntegrationTest.Domain.Entities
             ProductId = productId;
             InvoiceId = invoiceId;
             Quantity = quantity;
-            Id = Guid.NewGuid();
+           // Id = Guid.NewGuid();
         }
-        public Guid Id { get; private set; }
+        //public Guid Id { get; private set; }
 
         public Guid ProductId { get; private set; }
         public Guid InvoiceId { get; private set; }
