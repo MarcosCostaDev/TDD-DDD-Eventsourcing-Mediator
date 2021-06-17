@@ -29,7 +29,7 @@ namespace IntegrationTest.Infra.Repositories
 
         public async Task<IList<Invoice>> ListAsync()
         {
-            return await Context.Invoices.ToListAsync();
+            return await Context.Invoices.AsNoTracking().ToListAsync();
         }
     }
 }

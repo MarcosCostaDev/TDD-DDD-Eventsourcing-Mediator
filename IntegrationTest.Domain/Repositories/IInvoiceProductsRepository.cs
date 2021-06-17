@@ -11,5 +11,6 @@ namespace IntegrationTest.Domain.Repositories
     public interface IInvoiceProductsRepository : IRepository
     {
         Task AddAsync(InvoiceProduct productInvoice);
+        Task AddAsync(IEnumerable<InvoiceProduct> invoiceProducts);
     }
 }

@@ -31,12 +31,12 @@ namespace IntegrationTest.Infra.Repositories
 
         public async Task<IList<Product>> ListAllAsync()
         {
-            return await Context.Products.ToListAsync();
+            return await Context.Products.AsNoTracking().ToListAsync();
         }
 
         public async Task<IList<Product>> ListAsync(IEnumerable<Guid> ids)
         {
-            return await Context.Products.Where(p => ids.Contains(p.Id)).ToListAsync();
+            return await Context.Products.AsNoTracking().Where(p => ids.Contains(p.Id)).ToListAsync();
         }
 
         public Task UpdateAsync(Product product)

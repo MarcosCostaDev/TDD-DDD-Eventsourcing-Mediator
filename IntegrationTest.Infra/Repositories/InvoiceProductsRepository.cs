@@ -20,5 +20,10 @@ namespace IntegrationTest.Infra.Repositories
         {
             await Context.InvoiceProducts.AddAsync(productInvoice);
         }
+
+        public async Task AddAsync(IEnumerable<InvoiceProduct> invoiceProducts)
+        {
+            await Context.InvoiceProducts.AddRangeAsync(invoiceProducts);
+        }
     }
 }

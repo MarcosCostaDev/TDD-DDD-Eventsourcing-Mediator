@@ -46,14 +46,17 @@ namespace IntegrationTest.Domain.Commands.Inputs
             var invoice = new Invoice(request.CustomerId);
             var products = await _productRepository.ListAsync(request.Items.Select(p => p.ProductId));
             invoice.SetTotal(products, request.Discount);
-            await _invoiceRepository.AddAsync(invoice);
+            var invoiceProducts = new List<InvoiceProduct>();
             foreach (var item in request.Items)
             {
                 var productInvoice = new InvoiceProduct(item.ProductId, invoice.Id, item.Quantity);
                 AddNotifications(productInvoice);
-                await _invoiceProductsRepository.AddAsync(productInvoice);
-
+                invoiceProducts.Add(productInvoice);
             }
+
+            await _invoiceRepository.AddAsync(invoice);
+            await _invoiceProductsRepository.AddAsync(invoiceProducts);
+           
 
             AddNotifications(invoice);
 

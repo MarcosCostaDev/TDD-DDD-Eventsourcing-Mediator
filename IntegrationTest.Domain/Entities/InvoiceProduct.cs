@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace IntegrationTest.Domain.Entities
 {
-    public class InvoiceProduct :Notifiable<Notification>
+    public class InvoiceProduct : Notifiable<Notification>
     {
         protected InvoiceProduct() { }
         public InvoiceProduct(Guid productId, Guid invoiceId, double quantity)
@@ -22,7 +22,9 @@ namespace IntegrationTest.Domain.Entities
             ProductId = productId;
             InvoiceId = invoiceId;
             Quantity = quantity;
+            Id = Guid.NewGuid();
         }
+        public Guid Id { get; private set; }
 
         public Guid ProductId { get; private set; }
         public Guid InvoiceId { get; private set; }

@@ -43,9 +43,9 @@ namespace IntegrationTest.Domain.Commands.Inputs
 
             await _productRepository.AddAsync(product);
             AddNotifications(product);
-            await CommitAsync(_productRepository);
 
-            if(IsValid)
+            await CommitAsync(_productRepository);
+            if (IsValid)
             {
                 await _mediatorHandler.PublishEventAsync(new CreatedProductEvent
                 {

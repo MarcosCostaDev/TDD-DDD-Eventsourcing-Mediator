@@ -20,11 +20,13 @@ namespace IntegrationTest.Infra.Contexts
 
         public MyDbContext([NotNull] DbContextOptions options) : base(options)
         {
-          
+            
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            
+
             modelBuilder
                 .Ignore<Notification>()
                 .Ignore<Notifiable<Notification>>()
