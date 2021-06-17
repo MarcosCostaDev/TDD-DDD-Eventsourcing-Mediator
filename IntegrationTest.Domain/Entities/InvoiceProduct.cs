@@ -19,13 +19,11 @@ namespace IntegrationTest.Domain.Entities
                     .IsGreaterThan(quantity, 0, "Quantity", "Quantity must be greater  0");
 
             AddNotifications(contract);
-            Id = Guid.NewGuid();
             ProductId = productId;
             InvoiceId = invoiceId;
             Quantity = quantity;
         }
 
-        public Guid Id { get; private set; }
         public Guid ProductId { get; private set; }
         public Guid InvoiceId { get; private set; }
         public double Quantity { get; private set; }

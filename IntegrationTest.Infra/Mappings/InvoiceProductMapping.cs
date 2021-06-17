@@ -13,7 +13,7 @@ namespace IntegrationTest.Infra.Mappings
     {
         public void Configure(EntityTypeBuilder<InvoiceProduct> builder)
         {
-            builder.HasKey(p => p.Id);
+            builder.HasKey(p => new { p.ProductId, p.InvoiceId });
             builder.HasOne(p => p.Product).WithMany(p => p.InvoiceProducts).HasForeignKey(p => p.ProductId);
             builder.HasOne(p => p.Invoice).WithMany(p => p.InvoiceProducts).HasForeignKey(p => p.InvoiceId);
 
