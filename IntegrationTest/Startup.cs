@@ -10,6 +10,7 @@ using IntegrationTest.Domain.Repositories;
 using IntegrationTest.Infra.Contexts;
 using IntegrationTest.Infra.Repositories;
 using IntegrationTest.Mapper;
+using IntegrationTest.Security.Hangfire;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -154,7 +155,11 @@ namespace IntegrationTest
 
         protected virtual void UseHangfire(IApplicationBuilder app)
         {
-            app.UseHangfireDashboard();
+            app.UseHangfireDashboard("/hangfire", new DashboardOptions
+            {
+                Authorization = new[] { new AllowConnectionsFilter() },
+                IgnoreAntiforgeryToken = true
+            });
 
             RecurringJob.AddOrUpdate<IFakingProductAction>($"FakingProducts",
                   x => x.GenerateProducts(), "*/30 * * * * *", queue: "generate_fake_products");
