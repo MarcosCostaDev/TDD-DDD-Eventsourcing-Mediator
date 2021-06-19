@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace IntegrationTest.Infra.Migrations
 {
-    public partial class initialMigration : Migration
+    public partial class IdentityCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -43,13 +43,11 @@ namespace IntegrationTest.Infra.Migrations
                 {
                     ProductId = table.Column<Guid>(type: "TEXT", nullable: false),
                     InvoiceId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Quantity = table.Column<double>(type: "REAL", nullable: false),
-                    TempId = table.Column<int>(type: "INTEGER", nullable: false)
+                    Quantity = table.Column<double>(type: "REAL", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_InvoiceProducts", x => new { x.InvoiceId, x.ProductId });
-                    table.UniqueConstraint("AK_InvoiceProducts_TempId", x => x.TempId);
                     table.ForeignKey(
                         name: "FK_InvoiceProducts_Invoices_InvoiceId",
                         column: x => x.InvoiceId,

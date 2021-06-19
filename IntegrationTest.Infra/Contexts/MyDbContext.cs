@@ -25,14 +25,26 @@ namespace IntegrationTest.Infra.Contexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            
+
+            modelBuilder.Entity<InvoiceProduct>()
+                .HasKey(p => new { p.InvoiceId, p.ProductId });
+            modelBuilder.Entity<InvoiceProduct>()
+                .HasOne(p => p.Product)
+                .WithMany(p => p.InvoiceProducts)
+                .HasForeignKey(p => p.ProductId);
+            modelBuilder.Entity<InvoiceProduct>()
+                .HasOne(p => p.Invoice)
+                .WithMany(p => p.InvoiceProducts)
+                .HasForeignKey(p => p.InvoiceId);
+
 
             modelBuilder
                 .Ignore<Notification>()
                 .Ignore<Notifiable<Notification>>()
+                //.ApplyConfiguration(new InvoiceProductMapping())
                 .ApplyConfiguration(new InvoiceMapping())
-                .ApplyConfiguration(new ProductMapping())
-                .ApplyConfiguration(new InvoiceProductMapping());
+                .ApplyConfiguration(new ProductMapping());
+                
 
             base.OnModelCreating(modelBuilder);
 

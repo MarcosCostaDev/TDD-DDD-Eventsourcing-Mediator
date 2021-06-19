@@ -16,8 +16,14 @@ namespace IntegrationTest.Infra.Mappings
             //TODO: Looking for solution about EF/SQLite that generate a TempID integer when use builder.HasKey(p => new { p.InvoiceId, p.ProductId }); for migration
             //builder.HasKey(p => p.Id);
             builder.HasKey(p => new { p.InvoiceId, p.ProductId }); // generate a TempID integer when use builder.HasKey(p => new { p.InvoiceId, p.ProductId }); for migration
-            builder.HasOne(p => p.Product).WithMany(p => p.InvoiceProducts).HasForeignKey(p => p.ProductId);
-            builder.HasOne(p => p.Invoice).WithMany(p => p.InvoiceProducts).HasForeignKey(p => p.InvoiceId);
+            builder
+                .HasOne(p => p.Product)
+                .WithMany(p => p.InvoiceProducts)
+                .HasForeignKey(p => p.ProductId);
+            builder
+                .HasOne(p => p.Invoice)
+                .WithMany(p => p.InvoiceProducts)
+                .HasForeignKey(p => p.InvoiceId);
 
         }
     }

@@ -9,14 +9,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IntegrationTest.Infra.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20210617131932_initialMigration")]
-    partial class initialMigration
+    [Migration("20210619163714_IdentityCreate")]
+    partial class IdentityCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "5.0.6");
+                .HasAnnotation("ProductVersion", "5.0.7");
 
             modelBuilder.Entity("IntegrationTest.Domain.Entities.Invoice", b =>
                 {
@@ -55,12 +55,7 @@ namespace IntegrationTest.Infra.Migrations
                     b.Property<double>("Quantity")
                         .HasColumnType("REAL");
 
-                    b.Property<int>("TempId")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("InvoiceId", "ProductId");
-
-                    b.HasAlternateKey("TempId");
 
                     b.HasIndex("ProductId");
 

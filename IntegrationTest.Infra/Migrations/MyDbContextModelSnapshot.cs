@@ -14,7 +14,7 @@ namespace IntegrationTest.Infra.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "5.0.6");
+                .HasAnnotation("ProductVersion", "5.0.7");
 
             modelBuilder.Entity("IntegrationTest.Domain.Entities.Invoice", b =>
                 {
@@ -53,9 +53,7 @@ namespace IntegrationTest.Infra.Migrations
                     b.Property<double>("Quantity")
                         .HasColumnType("REAL");
 
-
                     b.HasKey("InvoiceId", "ProductId");
-
 
                     b.HasIndex("ProductId");
 
