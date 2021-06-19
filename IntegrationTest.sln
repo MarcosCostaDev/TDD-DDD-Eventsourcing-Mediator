@@ -20,7 +20,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntegrationTest.Core", "IntegrationTest.Core\IntegrationTest.Core.csproj", "{DC3B2BEF-EA6F-4DE4-A359-1C0F22BDAE49}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationTest.BackgroundManager", "IntegrationTest.BackgroundManager\IntegrationTest.BackgroundManager.csproj", "{538FD22D-179A-4F44-97E3-6CDAD1C93A62}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntegrationTest.BackgroundManager", "IntegrationTest.BackgroundManager\IntegrationTest.BackgroundManager.csproj", "{538FD22D-179A-4F44-97E3-6CDAD1C93A62}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CrossCutting", "CrossCutting", "{0F846810-6A36-48E5-B5F9-7972FFB1D554}"
 EndProject
@@ -30,7 +30,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{7F7FB6
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infra", "Infra", "{7D0AF83F-12A1-4EA9-9CFA-22BE82100FB6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationTest.Bus", "IntegrationTest.Bus\IntegrationTest.Bus.csproj", "{99052A8A-A4EC-4008-B275-6C100F3A4887}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntegrationTest.Bus", "IntegrationTest.Bus\IntegrationTest.Bus.csproj", "{99052A8A-A4EC-4008-B275-6C100F3A4887}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{BCD02F93-9A2A-446F-8E13-09874B908A9C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -66,6 +68,10 @@ Global
 		{99052A8A-A4EC-4008-B275-6C100F3A4887}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{99052A8A-A4EC-4008-B275-6C100F3A4887}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{99052A8A-A4EC-4008-B275-6C100F3A4887}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCD02F93-9A2A-446F-8E13-09874B908A9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCD02F93-9A2A-446F-8E13-09874B908A9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCD02F93-9A2A-446F-8E13-09874B908A9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCD02F93-9A2A-446F-8E13-09874B908A9C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  integrationtest:
+    image: ${DOCKER_REGISTRY-}integrationtest
+    build:
+      context: .
+      dockerfile: IntegrationTest/Dockerfile
