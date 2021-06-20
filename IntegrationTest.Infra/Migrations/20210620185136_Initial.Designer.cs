@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IntegrationTest.Infra.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20210619163714_IdentityCreate")]
-    partial class IdentityCreate
+    [Migration("20210620185136_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

@@ -1,10 +1,6 @@
-﻿using Flunt.Notifications;
+﻿using System;
+using Flunt.Notifications;
 using Flunt.Validations;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IntegrationTest.Domain.Entities
 {
@@ -22,9 +18,7 @@ namespace IntegrationTest.Domain.Entities
             ProductId = productId;
             InvoiceId = invoiceId;
             Quantity = quantity;
-           // Id = Guid.NewGuid();
         }
-        //public Guid Id { get; private set; }
 
         public Guid ProductId { get; private set; }
         public Guid InvoiceId { get; private set; }
