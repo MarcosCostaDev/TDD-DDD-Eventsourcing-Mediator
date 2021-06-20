@@ -23,7 +23,7 @@ Feel free to download the project and run in your enverionment.
 - AutoMapper
 - Entity Framework Core
 - SQLite
-- Docker Support
+- Docker
 
 **Unit Tests / Integration Tests**
 
