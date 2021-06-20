@@ -38,7 +38,7 @@ namespace IntegrationTest.Domain.Commands.Inputs
             _invoiceRepository = invoiceRepository;
             _productRepository = productRepository;
             _invoiceProductsRepository = invoiceProductsRepository;
-            
+
         }
 
         public async Task<CommandResult> Handle(CreateInvoiceCommand request, CancellationToken cancellationToken)
@@ -56,13 +56,13 @@ namespace IntegrationTest.Domain.Commands.Inputs
 
             await _invoiceRepository.AddAsync(invoice);
             await _invoiceProductsRepository.AddAsync(invoiceProducts);
-           
+
 
             AddNotifications(invoice);
 
             await CommitAsync(_invoiceProductsRepository);
 
-            if(IsValid)
+            if (IsValid)
             {
                 await _mediatorHandler.PublishEventAsync(new InvoiceCreatedEvent
                 {

@@ -1,11 +1,7 @@
-﻿using IntegrationTest.Domain.Entities;
+﻿using Flunt.Notifications;
+using IntegrationTest.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IntegrationTest.Infra.Mappings
 {
@@ -13,18 +9,20 @@ namespace IntegrationTest.Infra.Mappings
     {
         public void Configure(EntityTypeBuilder<InvoiceProduct> builder)
         {
-            //TODO: Looking for solution about EF/SQLite that generate a TempID integer when use builder.HasKey(p => new { p.InvoiceId, p.ProductId }); for migration
-            //builder.HasKey(p => p.Id);
-            builder.HasKey(p => new { p.InvoiceId, p.ProductId }); // generate a TempID integer when use builder.HasKey(p => new { p.InvoiceId, p.ProductId }); for migration
             builder
-                .HasOne(p => p.Product)
-                .WithMany(p => p.InvoiceProducts)
-                .HasForeignKey(p => p.ProductId);
-            builder
-                .HasOne(p => p.Invoice)
-                .WithMany(p => p.InvoiceProducts)
-                .HasForeignKey(p => p.InvoiceId);
+               .HasKey(pt => new { pt.InvoiceId, pt.ProductId });
 
+            builder
+                .HasOne(pt => pt.Product)
+                .WithMany(pt => pt.InvoiceProducts)
+                .HasForeignKey(pt => pt.ProductId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder
+                .HasOne(pt => pt.Invoice)
+                .WithMany(pt => pt.InvoiceProducts)
+                .HasForeignKey(pt => pt.InvoiceId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
