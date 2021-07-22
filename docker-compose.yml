@@ -6,6 +6,9 @@ services:
     build:
       context: .
       dockerfile: IntegrationTest/Dockerfile
+    networks:
+        - redis-network
+        - rabbitmq-network
   rabbitmq3:
     image: rabbitmq:3-management
     environment: 
@@ -16,6 +19,9 @@ services:
         - ./IntegrationTest/App_Data/rabbitmq-data:/var/lib/rabbitmq
     ports:
         - 15672:15672
+        - 5672:5672
+    networks: 
+        - rabbitmq-network 
   redis:
     image: redis
     restart: unless-stopped
@@ -25,5 +31,7 @@ services:
         - redis-network 
 networks:
     redis-network:
+        driver: bridge
+    rabbitmq-network:
         driver: bridge
 
