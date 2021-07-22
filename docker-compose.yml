@@ -6,3 +6,24 @@ services:
     build:
       context: .
       dockerfile: IntegrationTest/Dockerfile
+  rabbitmq3:
+    image: rabbitmq:3-management
+    environment: 
+        RABBITMQ_ERLANG_COOKIE: 'just-for-study-do-not-use-it-in-production'
+        RABBITMQ_DEFAULT_USER: guest
+        RABBITMQ_DEFAULT_PASS: guest
+    volumes:
+        - ./IntegrationTest/App_Data/rabbitmq-data:/var/lib/rabbitmq
+    ports:
+        - 15672:15672
+  redis:
+    image: redis
+    restart: unless-stopped
+    ports:
+        - "6379:6379"
+    networks: 
+        - redis-network 
+networks:
+    redis-network:
+        driver: bridge
+

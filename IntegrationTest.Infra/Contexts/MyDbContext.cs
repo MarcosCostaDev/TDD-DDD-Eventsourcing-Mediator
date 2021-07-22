@@ -1,8 +1,10 @@
 ﻿using Flunt.Notifications;
+using IntegrationTest.Core.Loggers;
 using IntegrationTest.Domain.Entities;
 using IntegrationTest.Infra.Mappings;
 using IntegrationTest.Infra.Seeds;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -21,6 +23,14 @@ namespace IntegrationTest.Infra.Contexts
         public MyDbContext([NotNull] DbContextOptions options) : base(options)
         {
 
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            var loggerFactory = new LoggerFactory();
+            loggerFactory.AddProvider(new QueryLoggerProvider());
+            optionsBuilder.UseLoggerFactory(loggerFactory);
+            optionsBuilder.EnableSensitiveDataLogging();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
