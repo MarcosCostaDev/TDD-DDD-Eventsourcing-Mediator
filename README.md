@@ -1,5 +1,5 @@
 
-# IntegrationTest Project
+# TDD-DDD-Eventsourcing-Mediator
 
 Welcome to my project that I use for playing with technologies that I would like to explorer them more. 
 Feel free to download the project and run in your enverionment.
@@ -29,7 +29,7 @@ Feel free to download the project and run in your enverionment.
 
 - XUnit
 
-## Design Patterns 
+## Architecture
 
 - Domain Driven Design (DDD)
 - Repository Pattern
