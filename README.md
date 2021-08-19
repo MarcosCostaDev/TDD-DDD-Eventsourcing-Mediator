@@ -13,7 +13,7 @@ Feel free to download the project and run in your enverionment.
 - See the code with an [online code editor](https://github1s.com/MarcosCostaDev/IntegrationTest)
 
 
-## Techonologies used in this project so far
+## Techonologies have used in this project so far
 
 - .NET 5
 - ASP.NET WEB API 
@@ -29,7 +29,7 @@ Feel free to download the project and run in your enverionment.
 
 - XUnit
 
-## Architecture
+## Architectures
 
 - Domain Driven Design (DDD)
 - Message Bus
@@ -49,7 +49,7 @@ Feel free to download the project and run in your enverionment.
 - Entity Framework Code First
 - Linq / Lambda expressions
 
-## After Run
+## After Running
 
 **URLS**
 
@@ -57,7 +57,7 @@ Feel free to download the project and run in your enverionment.
 - Swagger UI: https://localhost:44393/swagger/index.html
 
 
-## Expected Behaviors 
+## Expected Behaviour
 
 Two background queue are created. They are named `generate_fake_products` and `generate_fake_invoices`
 - **generate_fake_products**: Products are generate automatically in every 30 seconds
