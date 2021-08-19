@@ -36,6 +36,12 @@ Feel free to download the project and run in your enverionment.
 - Message Bus
 - Fluent Validation
 
+## Design Patterns
+
+- Mediator
+- Dependency Injection
+- Inversion of control
+
 ## Strategies
 
 - Command Query Responsability Segregation (CQRS)  
