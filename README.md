@@ -32,7 +32,6 @@ Feel free to download the project and run in your enverionment.
 ## Architecture
 
 - Domain Driven Design (DDD)
-- Repository Pattern
 - Message Bus
 - Fluent Validation
 
@@ -41,6 +40,7 @@ Feel free to download the project and run in your enverionment.
 - Mediator
 - Dependency Injection
 - Inversion of control
+- Repository
 
 ## Strategies
 
