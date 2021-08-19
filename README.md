@@ -44,6 +44,7 @@ Feel free to download the project and run in your enverionment.
 
 ## Strategies
 
+- Test Driven Development (TDD)
 - Command Query Responsability Segregation (CQRS)  
 - Entity Framework Code First
 - Linq / Lambda expressions
