@@ -31,7 +31,7 @@ Feel free to download the project and run in your enverionment.
 
 ## Architectures
 
-- Domain Driven Design (DDD)
+- Onion Architecture
 - Message Bus
 - Fluent Validation
 
@@ -44,6 +44,7 @@ Feel free to download the project and run in your enverionment.
 
 ## Strategies
 
+- Domain Driven Design (DDD)
 - Test Driven Development (TDD)
 - Command Query Responsability Segregation (CQRS)  
 - Entity Framework Code First
