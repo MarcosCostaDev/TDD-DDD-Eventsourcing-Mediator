@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\CrossCutting\TheProject.Bus\TheProject.Bus.csproj" />
+    <ProjectReference Include="..\..\Shared\TheProject.Shared\TheProject.Shared.csproj" />
+    <ProjectReference Include="..\TheProject.Domain\TheProject.Domain.csproj" />
+    <ProjectReference Include="..\TheProject.Infra\TheProject.Infra.csproj" />
+  </ItemGroup>
+
+</Project>

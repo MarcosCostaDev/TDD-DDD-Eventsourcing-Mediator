@@ -6,6 +6,7 @@ Feel free to download the project and run in your enverionment.
 
 ## Requirements for running in your enverionment
 - [.NET 5](https://dotnet.microsoft.com/download/dotnet)
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 - [Visual Studio](https://visualstudio.microsoft.com/vs/community/) or [Visual Studio Code](https://code.visualstudio.com/)
 
 **Optional**
@@ -31,7 +32,7 @@ Feel free to download the project and run in your enverionment.
 
 ## Architectures
 
-- Domain Driven Design (DDD)
+- Onion Architecture
 - Message Bus
 - Fluent Validation
 
@@ -44,6 +45,7 @@ Feel free to download the project and run in your enverionment.
 
 ## Strategies
 
+- Domain Driven Design (DDD)
 - Test Driven Development (TDD)
 - Command Query Responsability Segregation (CQRS)  
 - Entity Framework Code First
