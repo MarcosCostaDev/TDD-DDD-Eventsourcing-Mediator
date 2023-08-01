@@ -362,4 +362,4 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
-IntegrationTest/App_Data/
+**/App_Data

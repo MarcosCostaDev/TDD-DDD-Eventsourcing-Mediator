@@ -6,6 +6,7 @@ Feel free to download the project and run in your enverionment.
 
 ## Requirements for running in your enverionment
 - [.NET 5](https://dotnet.microsoft.com/download/dotnet)
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 - [Visual Studio](https://visualstudio.microsoft.com/vs/community/) or [Visual Studio Code](https://code.visualstudio.com/)
 
 **Optional**
